@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EmbIOTe Labs</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
+ <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+ <link rel="stylesheet" href="./style.css">
+ <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+ <script src="https://devapi.orca.embiote.in/orca/team-bot/js/vendor/blink-title.js"></script>
+<style>
+ .load-start{
+    position: relative;
+    top: -15%;
+    left: 0%;
+    background: #fff;
+    z-index: 9999999999;
+    width: 100%;
+    height: 90%;
+
+  
+ }
+
+ .sp {
+  width: 32px;
+  height: 32px;
+  clear: both;
+  position: relative;
+  top: 70%;
+  margin: 20px auto;
+}
+
+/* Spinner Circle Rotation */
+.sp-circle {
+  border: 4px rgba(0, 0, 0, 0.25) solid;
+  border-top: 4px  #096da2 solid;
+  border-radius: 50%;
+  -webkit-animation: spCircRot .6s infinite linear;
+  animation: spCircRot .6s infinite linear;
+}
+
+@-webkit-keyframes spCircRot {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(359deg);
+  }
+}
+@keyframes spCircRot {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+.brand-text{
+    background: #0000;
+    z-index: 99999999999;
+
+}
+.brand-text p{
+    width: 100%;
+    height: 23px;
+    top: 87%;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;;
+    position: absolute;
+    font-size: 10.5px;
+    letter-spacing: 1px;
+    background: rgb(243, 240, 240);
+    opacity: 0.7;
+}
+.brand-text a{
+    text-decoration: none;
+    font-weight: bold;
+    color: #096da2;
+}
+.brand-text a:hover{
+    opacity: 1;
+}
+</style>
+</head>
+<body>
+      
+   
+  <div class="fabs">
+  <div class="chat">
+   <div class="chat_header">
+      <div class="chat_option">
+      <div class="header_img">
+        <img src="https://api.tezsolutions.in/images/ORCA/Icon.png"/>
+        </div>
+        <span id="chat_head">EmbIOTe Bot</span> <br> <span class="agent">Agent</span> <span class="online">(Online)</span>
+       <span id="chat_fullscreen_loader" class="chat_fullscreen_loader"><i class="fullscreen zmdi zmdi-window-maximize"></i></span>
+
+      </div>
+
+    </div>
+    <div id="chat_converse" class="chat_conversion chat_converse">
+        
+      <span class="chat_msg_item chat_msg_item_admin">
+            <div class="chat_avatar">
+               <img src="https://img.icons8.com/fluent-systems-regular/344/bot.png"/>
+            </div>Hi there! How can I help you?</span>
+
+
+            <div class="load-start">
+                <div class="sp sp-circle"></div>
+           
+         </div>
+
+
+
+            </div>
+            <!-- <div class="brand-text">
+                <p>Powered by <a href="#">EmbIOTe</a></p>
+            </div> -->
+    <div class="fab_field">
+      <a id="fab_camera" class="fab">
+        <i class="zmdi zmdi-attachment-alt"></i>
+      </a>
+      <a id="fab_send" class="fab"><i class="zmdi zmdi-mic" onclick="iconFunction()" id="micIcon"></i></a>
+      <input type="text" id="chatSend" name="msg-txt" placeholder="Send a message" class="chat_field chat_message" onkeyup="changeIcon('micIcon')" />
+    </div>
+  </div>
+    <a id="prime" class="fab"><i class="prime zmdi zmdi-comment-outline"></i></a>
+</div>
+
+
+
+
+
+
+ 
+ <script>
+
+$(document).ready(function() {
+    wsConnect();
+});
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+var sound = new Audio();
+sound.src = 'https://www.zapsplat.com/wp-content/uploads/2015/sound-effects-35448/zapsplat_cartoon_bubble_pop_003_40275.mp3';
+
+$('#prime').click(function() {
+    toggleFab();
+});
+
+
+function toggleFab() {
+    $('.prime').toggleClass('zmdi-comment-outline');
+    $('.prime').toggleClass('zmdi-close');
+    $('.prime').toggleClass('is-active');
+    $('.prime').toggleClass('is-visible');
+    $('#prime').toggleClass('is-float');
+    $('.chat').toggleClass('is-visible');
+    $('.fab').toggleClass('is-visible');
+
+}
+
+
+$('#chat_fullscreen_loader').click(function(e) {
+    $('.fullscreen').toggleClass('zmdi-window-maximize');
+    $('.fullscreen').toggleClass('zmdi-window-restore');
+    $('.chat').toggleClass('chat_fullscreen');
+    $('.fab').toggleClass('is-hide');
+    $('.header_img').toggleClass('change_img');
+    $('.img_container').toggleClass('change_img');
+    $('.chat_header').toggleClass('chat_header2');
+    $('.fab_field').toggleClass('fab_field2');
+    $('.chat_converse').toggleClass('chat_converse2');
+
+});
+
+
+var ws;
+var wsUri = "ws:";
+var loc = window.location;
+var responseMessage = {};
+console.log(loc);
+if (loc.protocol === "https:") {
+    wsUri = "wss:";
+}
+
+wsUri += "//" + loc.host + loc.pathname.replace("test", "ws/test");
+
+function wsConnect() {
+    console.log("connect", wsUri);
+    // ws = new WebSocket(wsUri);
+    ws = new WebSocket("wss://team.orca-bot.me/ws/chat");
+    ws.onmessage = function(msg) {
+        var line = "";
+        var data = JSON.parse(msg.data);
+        responseMessage["context"] = data["context"];
+        console.log(msg);
+        line += "<p>" + data.text + "</p>";
+        setTimeout(() => {
+            $("#typing-blob").remove();
+        }, 2000);
+        setTimeout(() => {
+            $("#chat_converse").append("<div class='chat_msg_item chat_msg_item_admin back'><div class='chat_avatar'><img src='https://img.icons8.com/fluent-systems-regular/344/bot.png'></div>" + line + "</div>").animate({
+                scrollTop: $('#chat_converse').prop("scrollHeight")
+            }, 500)
+            var d = new Date().toISOString();
+            $("#chat_converse").append("<div class='bot-timer status2' id='time'><time class='timeago' datetime=" + d + "></time></div>").animate({
+                scrollTop: $('#chat').prop("scrollHeight")
+            }, 500)
+            $(document).ready(function() {
+                $("time.timeago").timeago();
+                sound.play();
+            });
+            $(document).ready(function(){
+                var text = data.text;
+                     blinkTitleStop();
+                     blinkTitle("Orca Says...",text,2000,true);
+                });              
+            if (data.options !== null) {
+                $("#chatSend").prop("disabled", true);
+                $("#chat_converse").append("<div class='chat_msg_item chat_msg_item_admin back' id='typing-blob'><div class='chat_avatar'><img src='https://img.icons8.com/fluent-systems-regular/344/bot.png'></div><div class='three col'><div class='loader' id='loader-4'><span></span><span></span><span></span></div></div></div>").animate({
+                    scrollTop: $('#chat_converse').prop("scrollHeight")
+                }, 500)
+                setTimeout(function() {
+                    $("#typing-blob").remove()
+                }, 2000);
+
+                setTimeout(() => {
+                    $(document).ready(function() {
+                        for (let i = 0; i < data.options[0].length; i++) {
+                            if (data.options[0][i].text !== undefined) {
+                            $("#chat_converse").append("<div id='remove-options' class='chat_msg_item chat_msg_item_admin extra' data-value=\"" + data.options[0][i].text + "\" onclick='myFun(this)'> " + data.options[0][i].text + "</div>").animate({
+                                    scrollTop: $('#chat_converse').prop("scrollHeight")
+                                }, 500)
+                            }
+                        }
+                        sound.play();
+                        $(document).ready(function() {
+                          $('input[name="msg-txt"]').attr('placeholder', 'Choose an option');
+                            $('input[name="msg-txt"]').css({"cursor": "no-drop"});
+
+                            });
+                    })
+                }, 2100);
+            } else {
+                $("#chatSend").prop("disabled", false);
+                $('input[name="msg-txt"]').css({"cursor": "auto"});
+                $(document).ready(function() {
+                $('input[name="msg-txt"]').attr('placeholder', 'Send a message');
+                });
+            }
+        }, 2100);
+       
+    }
+
+    ws.onopen = function() {
+        console.log("connected");
+    }
+    ws.onclose = function() {
+        setTimeout(wsConnect, 3000);
+    }
+}
+
+function doit(m) {
+    if (ws) {
+        ws.send(m);
+    }
+}
+
+
+function sendMessage(userResponse) {
+    if (userResponse !== "") {
+        responseMessage["text"] = userResponse
+        doit(JSON.stringify(responseMessage));
+        responseMessage = {};
+        $("#chat_converse").append("<div class='chat_msg_item chat_msg_item_user'>" + userResponse + "</div>").animate({
+            scrollTop: $('#chat_converse').prop("scrollHeight")
+        }, 500)
+        var d = new Date().toISOString();
+        $("#chat_converse").append("<div class='bot-timer status' id='time'><time class='timeago' datetime=" + d + "></time></div>").animate({
+            scrollTop: $('#chat').prop("scrollHeight")
+        }, 500)
+        $(document).ready(function() {
+            $("time.timeago").timeago();
+        });
+        $("#chat_converse").append("<div class='chat_msg_item chat_msg_item_admin back' id='typing-blob'><div class='chat_avatar'><img src='https://img.icons8.com/fluent-systems-regular/344/bot.png'></div><div class='three col'><div class='loader' id='loader-4'><span></span><span></span><span></span></div></div></div>").animate({
+            scrollTop: $('#chat_converse').prop("scrollHeight")
+        }, 500)
+
+        sound.play();
+        $("#chatSend").val("");
+        setTimeout(function() {
+            $("#typing-blob").remove()
+        }, 5000);
+
+    }
+}
+
+function sendFromTextBox() {
+    if (userResponse !== "") {
+        var userResponse = $("#chatSend").val();
+        console.log(userResponse);
+        sendMessage(userResponse);
+        userResponse = "";
+    }
+}
+
+
+function myFun(btn) {
+    console.log(btn.dataset.value);
+    userResponse = btn.dataset.value;
+    sendMessage(userResponse);
+}
+
+
+function record() {
+    $(document).ready(function() {
+        $('input[name="msg-txt"]').attr('placeholder', 'Listening.....');
+    })
+    setTimeout(() => {
+        $(document).ready(function() {
+            $('input[name="msg-txt"]').attr('placeholder', 'Send a message');
+        })
+    }, 4000);
+    var recognition = new webkitSpeechRecognition();
+    recognition.lang = "en-GB";
+    recognition.onresult = function(event) {
+        console.log(event);
+        document.getElementById('chatSend').value = event.results[0][0].transcript;
+        setTimeout(() => {
+            var userResponse = $("#chatSend").val();
+            console.log(userResponse);
+
+            sendMessage(userResponse);
+            userResponse = "";
+        }, 2000);
+
+        $(document).ready(function() {
+            $('input[name="msg-txt"]').attr('placeholder', 'Send a message');
+        })
+
+
+    }
+    recognition.start();
+}
+
+function iconFunction() {
+    if (document.getElementById('micIcon').className == "zmdi zmdi-mic") {
+        record();
+    }
+    if (document.getElementById('micIcon').className == "far fa-paper-plane") {
+        sendFromTextBox();
+    }
+
+
+}
+
+
+//changeicon code
+function changeIcon(f1) {
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if (document.getElementById(f1).className == "zmdi zmdi-mic") {
+
+        if (keycode != 32 && keycode != 8) {
+            document.getElementById(f1).className = "far fa-paper-plane";
+
+        }
+    } else {
+        if (keycode == 8) {
+            //console.log(keycode);
+            var content = document.getElementById('chatSend').value;
+            if (content == "") {
+                document.getElementById(f1).className = "zmdi zmdi-mic";
+            }
+
+        } else if (keycode == 13)
+
+        {
+            sendFromTextBox();
+            document.getElementById(f1).className = "zmdi zmdi-mic";
+
+        } else {
+            document.getElementById(f1).className = "far fa-paper-plane";
+        }
+    }
+
+}
+
+
+// $(document).delegate("#fab_send", "click", function() {
+//     var userResponse = $("#chatSend").val();
+//     console.log(userResponse);
+//     sendMessage(userResponse);
+//     userResponse = "";
+// });
+
+
+
+
+// $(document).delegate("#chatSend", "keyup", function(event) {
+//     if (event.keyCode === 13) {
+//         $("#fab_send").click();
+//     }
+// });
+
+$(document).ready(function() {
+    setTimeout(function() {
+        $(".fab").click();
+        setTimeout(function(){
+    $('.load-start').fadeToggle();
+  }, 3000);
+    }, 1000);
+
+});
+// $(".fab").click(function(){
+//     setTimeout(function(){
+//     $('.load-start').fadeToggle();
+//   }, 3000);
+// });
+
+ </script>
+    <script src="https://devapi.orca.embiote.in/orca/team-bot/js/vendor/timeago.js"></script>
+  
+
+</body>
+</html>

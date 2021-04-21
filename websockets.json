@@ -1,0 +1,249 @@
+[
+    {
+        "id": "94da1880.7e5898",
+        "type": "tab",
+        "label": "Sai-chat",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "8d9be36d.af95c",
+        "type": "websocket out",
+        "z": "94da1880.7e5898",
+        "name": "",
+        "server": "7697fb4a.831394",
+        "client": "",
+        "x": 600,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "7e34c73c.1072c8",
+        "type": "http response",
+        "z": "94da1880.7e5898",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 530,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "10a129c7.0c4786",
+        "type": "http in",
+        "z": "94da1880.7e5898",
+        "name": "",
+        "url": "/chat",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 182,
+        "y": 160,
+        "wires": [
+            [
+                "8950f7d0.010bf8"
+            ]
+        ]
+    },
+    {
+        "id": "8950f7d0.010bf8",
+        "type": "template",
+        "z": "94da1880.7e5898",
+        "name": "ORCA",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "<title>EmbIOTe</title>\n<link rel=\"icon\" href=\"https://api.tezsolutions.in/images/ORCA/Icon.png\">\n<script src=\"https://code.jquery.com/jquery-3.5.1.js\"></script> \n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js\"></script>\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.css\"/>\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css\">\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css\">\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css\"/>\n<style>\n@import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');\n@import url(\"https://fonts.googleapis.com/css?family=Red+Hat+Display:400,500,900&display=swap\");\nbody,\nhtml {\n  font-family: Red hat Display, sans-serif;\n  font-weight: 400;\n  line-height: 1.25em;\n  letter-spacing: 0.025em;\n  color: #333;\n  background: #f7f7f7;\n}\n/*#hidden_emoji_box{*/\n/*  background: white;*/\n/*  padding-top: 10px;*/\n/*  padding-left: -1px;*/\n/*  padding-right: 12px;*/\n/*  width: 130px;*/\n/*  display: none;*/\n/*  position: absolute;*/\n/*  left: -12%;*/\n/*  top: 80.7%;*/\n/*  z-index:10;*/\n/*  border-radius: 5px;*/\n/*}*/\n\n/*.emoji_single{*/\n/*  padding: 2px 0 2px 4px;*/\n/*  display: inline-block;*/\n/*}*/\n\n/*.emoji_single:hover{*/\n/*  cursor:pointer;*/\n/*   background: #bdc3c7; */\n/*  background: yellow;*/\n/*}*/\n/*.emoji_select_active*/\n/*{*/\n/*    position: absolute;*/\n/*  left: -20%;*/\n/*  top: 90%;*/\n/*  z-index:10;*/\n/*  display:none;*/\n    \n}\n.orca-chat{\n     font-family: Red hat Display, sans-serif;\n      font-weight: 400;\n      line-height: 1.25em;\n      letter-spacing: 0.025em;\n      color: #333;\n      text-transform:none !important;\n      text-align:left !important;\n}\n#closeButton{\n    cursor:pointer;\n}\n.begin{\n    box-shadow:0px 0px 10px rgba(0,0,0,.3);\n    transition:0.5s;\n    border-radius:50%;\n}\n.begin:hover{\n    box-shadow:0px 4px 24px rgba(0,0,0,.5);\n    transition:0.5s;\n}\n.center {\n  position: absolute;\n  top: 50%;\n  left: calc(50% + 12rem);\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n}\n.closeBtn{\n    cursor:pointer;\n    color:#000 !important;\n}\n#closeButton i{\n    color:#666 !important;\n}\n\n.pic {\n  width: 4rem;\n  height: 4rem;\n  background-size: cover;\n  background-position: center;\n  border-radius: 50%;\n  cursor:pointer;\n  box-shadow:0px 2px 10px rgba(0,0,0,.2);\n}\n\n.contact {\n  position: relative;\n  margin-bottom: 1rem;\n  padding-left: 5rem;\n  height: 4.5rem;\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n          flex-direction: column;\n  -webkit-box-pack: center;\n          justify-content: center;\n}\n.contact .pic {\n  position: absolute;\n  left: 0;\n}\n.contact .name {\n  font-weight: 500;\n  margin-bottom: 0.125rem;\n}\n.contact .message,\n.contact .seen {\n  font-size: 0.9rem;\n  color: #999;\n}\n.contact .badge {\n  box-sizing: border-box;\n  position: absolute;\n  width: 1.5rem;\n  height: 1.5rem;\n  text-align: center;\n  font-size: 0.9rem;\n  padding-top: 0.125rem;\n  border-radius: 1rem;\n  top: 0;\n  left: 2.5rem;\n  background: #333;\n  color: white;\n}\n\n.contacts {\n  display:none;\n  position: absolute;\n  top: 50%;\n  left: 0;\n  -webkit-transform: translate(-6rem, -50%);\n          transform: translate(-6rem, -50%);\n  width: 24rem;\n  height: 32rem;\n  padding: 1rem 2rem 1rem 1rem;\n  box-sizing: border-box;\n  border-radius: 1rem 0 0 1rem;\n  cursor: pointer;\n  background: white;\n  box-shadow: 0 0 8rem 0 rgba(0, 0, 0, 0.1), 2rem 2rem 4rem -3rem rgba(0, 0, 0, 0.5);\n  -webkit-transition: -webkit-transform 500ms;\n  transition: -webkit-transform 500ms;\n  transition: transform 500ms;\n  transition: transform 500ms, -webkit-transform 500ms;\n}\n.contacts h2 {\n  margin: 0.5rem 0 1.5rem 5rem;\n}\n.contacts .fa-bars {\n  position: absolute;\n  left: 2.25rem;\n  color: #999;\n  -webkit-transition: color 200ms;\n  transition: color 200ms;\n}\n.contacts .fa-bars:hover {\n  color: #666;\n}\n.contacts .contact:last-child {\n  margin: 0;\n}\n.contacts:hover {\n  -webkit-transform: translate(-23rem, -50%);\n          transform: translate(-23rem, -50%);\n}\n\n.orca-chat {\n  position: relative;\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n          flex-direction: column;\n  -webkit-box-pack: justify;\n          justify-content: space-between;\n  width: 24rem;\n  height: 38rem;\n  z-index: 2;\n  box-sizing: border-box;\n  border-radius: 1rem;\n  background: white;\n  box-shadow: 0 0 8rem 0 rgba(0, 0, 0, 0.1), 0rem 2rem 4rem -3rem rgba(0, 0, 0, 0.5);\n  transition-duration: 0.5s;\n}\n\n.orca-chat.closed{\n    width: 6rem;\n    height: 6rem;\n    transition-duration: 0.5s;\n    border-radius: 50%;\n}\n\n.orca-chat .contact.bar {\n  flex-basis: 3.5rem;\n  flex-shrink: 0;\n  margin: 1rem;\n  box-sizing: border-box;\n}\n.orca-chat .messages {\n  height: inherit;\n  padding: 1rem;\n  background: #f7f7f7;\n  flex-shrink: 2;\n  overflow-y: auto;\n  border:none;\n  outline:none;\n  /*scroll-behavior:smooth;*/\n  box-shadow: inset 0 2rem 2rem -2rem rgba(0, 0, 0, 0.05), inset 0 -2rem 2rem -2rem rgba(0, 0, 0, 0.05);\n}\n.orca-chat .input img{\n    width:350px;\n    height:370px;\n    outline:none;\n    border:0;\n}\n.orca-chat .messages .time {\n  font-size: 0.8rem;\n  background: #eee;\n  padding: 0.25rem 1rem;\n  border-radius: 2rem;\n  color: #999;\n  width: -webkit-fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n  margin: 0 auto;\n}\n.orca-chat .messages .message {\n  box-sizing: border-box;\n  padding: 0.5rem 1rem;\n  margin: 1rem;\n  background: #fff;\n  border-radius: 1.125rem 1.125rem 1.125rem 0;\n  min-height: 2.25rem;\n  width: -webkit-fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n  max-width: 66%;\n  box-shadow: 0 0 2rem rgba(0, 0, 0, 0.075), 0rem 1rem 1rem -1rem rgba(0, 0, 0, 0.1);\n  \n}\n.orca-chat .messages .message.parker {\n  margin: 1rem 1rem 1rem auto;\n  border-radius: 1.125rem 1.125rem 0 1.125rem;\n  background: #333;\n  color: white;\n}\n.orca-chat .messages .message .typing {\n  display: inline-block;\n  width: 0.8rem;\n  height: 0.8rem;\n  margin-right: 0rem;\n  box-sizing: border-box;\n  background: #ccc;\n  border-radius: 50%;\n}\n.orca-chat .messages .message .typing.typing-1 {\n  -webkit-animation: typing 3s infinite;\n          animation: typing 3s infinite;\n}\n.orca-chat .messages .message .typing.typing-2 {\n  -webkit-animation: typing 3s 250ms infinite;\n          animation: typing 3s 250ms infinite;\n}\n.orca-chat .messages .message .typing.typing-3 {\n  -webkit-animation: typing 3s 500ms infinite;\n          animation: typing 3s 500ms infinite;\n}\n.orca-chat .input {\n  box-sizing: border-box;\n  flex-basis: 4rem;\n  flex-shrink: 0;\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-align: center;\n          align-items: center;\n  padding: 0 0.5rem 0 1.5rem;\n}\n.orca-chat .input i {\n  font-size: 1.5rem;\n  margin-right: 1rem;\n  color: #666 !important;\n  cursor: pointer;\n  -webkit-transition: color 200ms;\n  transition: color 200ms;\n}\n.orca-chat .input i:hover {\n  color: #333;\n}\n.orca-chat .input input {\n  border: none;\n  outline:none;\n  background-image: none;\n  background-color: white;\n  padding: 0.5rem 1rem;\n  margin-right: 1rem;\n  border-radius: 1.125rem;\n  -webkit-box-flex: 2;\n          flex-grow: 2;\n  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1), 0rem 1rem 1rem -1rem rgba(0, 0, 0, 0.2);\n  font-family: Red hat Display, sans-serif;\n  font-weight: 400;\n  letter-spacing: 0.025em;\n  font-size:13px !important;\n  transition:0.3s;\n}\n.orca-chat .input input:hover{\n    box-shadow:0px 0px 5px rgba(0,0,0,.3),0px 0px 10px rgba(0,0,0,.3),0px 0px 15px rgba(0,0,0,.3);\n    transition:0.3s;\n}\n.orca-chat .input input:placeholder {\n  color: #999;\n}\n\n@-webkit-keyframes typing {\n  0%,\n\t75%,\n\t100% {\n    -webkit-transform: translate(0, 0.25rem) scale(0.9);\n            transform: translate(0, 0.25rem) scale(0.9);\n    opacity: 0.5;\n  }\n  25% {\n    -webkit-transform: translate(0, -0.25rem) scale(1);\n            transform: translate(0, -0.25rem) scale(1);\n    opacity: 1;\n  }\n}\n\n@keyframes typing {\n  0%,\n\t75%,\n\t100% {\n    -webkit-transform: translate(0, 0.25rem) scale(0.9);\n            transform: translate(0, 0.25rem) scale(0.9);\n    opacity: 0.5;\n  }\n  25% {\n    -webkit-transform: translate(0, -0.25rem) scale(1);\n            transform: translate(0, -0.25rem) scale(1);\n    opacity: 1;\n  }\n}\n.pic.stark {\n  background-image: url(\"https://api.tezsolutions.in/images/ORCA/Icon.png\");\n  background-repeat:no-repeat;\n  background-size:cover;\n  background-position: center center;\n}\n\n.pic.banner {\n  background-image: url(\"https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/4/4f/BruceHulk-Endgame-TravelingCapInPast.jpg\");\n}\n\n.pic.thor {\n  background-image: url(\"https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/9/98/ThorFliesThroughTheAnus.jpg\");\n}\n\n.pic.danvers {\n  background-image: url(\"https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/0/05/HeyPeterParker.png\");\n}\n\n.pic.rogers {\n  background-image: url(\"https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/7/7c/Cap.America_%28We_Don%27t_Trade_Lives_Vision%29.png\");\n}\n\n\n\n\n/*.message.stark.extra {*/\n/*    outline: none;*/\n/*    border: none;*/\n/*    cursor:pointer;*/\n/*    position: relative;*/\n/*    display: inline-block;*/\n/*    background: #e6e6e6 !important;*/\n/*    transition: 0.3s;*/\n/*    color: #3c3636;*/\n/*    width: 300px;*/\n/*    height: 60px;*/\n/*    padding: 5px 5px !important;*/\n/*    font-weight: 600;*/\n/*    font-size: 18px;*/\n/*    margin: -3px;*/\n/*    transform: scale(0.8);*/\n/*    transition: 0.5s;*/\n/*    border-radius: 1.125rem;*/\n/*}*/\n/*.message.stark.extra:hover{*/\n/*    background:#908b8b !important;*/\n/*    color:#fff;*/\n/*    transition:0.5s;*/\n/*    transform:scale(0.9);*/\n/*    box-shadow:2px 8px 15px rgba(0,0,0,.3);*/\n/*    transition:0.5;*/\n/*}*/\n.message.stark.extra{\n    outline: none;\n    border: none;\n    cursor:pointer;\n    font-size:12px;\n    margin:8px !important;\n    transition:0.5s;\n    transform: scale(1);\n    border:2px solid rgba(0,0,0,.3);\n}\n.message.stark.extra:hover{\n    box-shadow:0 0 3rem rgba(0, 0, 0, 0.095), 0rem 1rem 1.5rem -1rem rgba(0, 0, 0, 0.2);\n    transition:0.5s;\n    transform: scale(1.09);\n    background:#333;\n    color:#fff;\n    border:2px solid #fff;\n}\n.messages::-webkit-scrollbar {\n    width:6px;\n    \n}\n.messages::-webkit-scrollbar-thumb{\n    border-radius:6px;\n    background-color: #000000;\n    background-image: linear-gradient(315deg, #000000 0%, #7f8c8d 74%);\n}\n\n.back::selection{\n    background:transparent;\n    color:blue;\n}\n\n .linkText{\n         font-weight: 600;\n         text-decoration:none;\n         \n\n      }\n.orca-chat .messages .timer{\n      font-size: 0.7rem;\n      color: #999;\n      margin-top:-10px;\n      width: -webkit-fit-content;\n      width: -moz-fit-content;\n      width: fit-content;\n      margin-left: 235px;\n}\n\n.orca-chat .messages .bot-timer{\n      font-size: 0.7rem;\n      color: #999;\n      margin-top:-10px;\n      width: -webkit-fit-content;\n      width: -moz-fit-content;\n      width: fit-content;\n      margin-left: 20px;\n}\n.contact .online-status{ \n    width: .65rem;\n    height: .65rem;\n    border-radius: 100%;\n    z-index: 999999;\n    background: #1cc88a !important;\n    bottom: -42px;\n    left: -30px;\n    position: relative;\n    border: .125rem solid #fff; \n}\n    </style>\n    <script type=\"text/javascript\">\n        $(document).ready(function(){\n            $(\"#openChatBox\").one(\"click\",function(){\n            $(\"#initial-message\").hide();\n            $(\"#chat\").append(\"<div class='message stark' id='typing-blob'><div class='typing typing-1'></div><div class='typing typing-2'></div><div class='typing typing-3'></div></div>\").animate({scrollTop: $('#chat').prop(\"scrollHeight\")}, 500)\n                        setTimeout(function () {\n                        $(\"#typing-blob\").remove();\n                        $(\"#initial-message\").show();\n                        }, 3000);\n        });\n        });\n\n\n        // $(document).ready(function(){\n        //     $(\"#initial-message\").hide();\n        //     $(\"#chat\").append(\"<div class='message stark' id='typing-blob'><div class='typing typing-1'></div><div class='typing typing-2'></div><div class='typing typing-3'></div></div>\").animate({scrollTop: $('#chat').prop(\"scrollHeight\")}, 500)\n        //                 setTimeout(function () {\n        //                 $(\"#typing-blob\").remove();\n        //                 $(\"#initial-message\").show();\n        //                 }, 5000);\n        // })\n\n    var datetime;\n    var sound = new Audio();\n    sound.src = 'https://www.zapsplat.com/wp-content/uploads/2015/sound-effects-35448/zapsplat_cartoon_bubble_pop_003_40275.mp3';\n         \n          \n        var ws;\n        var wsUri = \"ws:\";\n        var loc = window.location;\n        var responseMessage = {};\n        console.log(loc);\n        if (loc.protocol === \"https:\") { wsUri = \"wss:\"; }\n        // This needs to point to the web socket in the Node-RED flow\n        // ... in this case it's ws/simple\n        wsUri += \"//\" + loc.host + loc.pathname.replace(\"test\",\"ws/test\");\n\n        function wsConnect() {\n            console.log(\"connect\",wsUri);\n            // ws = new WebSocket(wsUri);\n            ws = new WebSocket(\"wss://devapi.orca.embiote.in/ws/simple\");\n            //var line = \"\";    // either uncomment this for a building list of messages\n            ws.onmessage = function(msg) {\n                var line = \"\";  // or uncomment this to overwrite the existing message\n                // parse the incoming message as a JSON object\n                \n                var data = JSON.parse(msg.data);\n                responseMessage[\"context\"] = data[\"context\"];\n                console.log(msg);\n                // build the output from the topic and payload parts of the object\n                line += \"<p>\"+data.text+\"</p>\";\n                \n                // replace the messages div with the new \"line\"\n                // document.getElementsByClassName('messages').innerHTML = line;\n                 $(\"#typing-blob\").remove()\n                    $(\"#chat\").append(\"<div class='message stark back'>\"+line+\"</div>\").animate({scrollTop: $('#chat').prop(\"scrollHeight\")}, 500)\n                    // var newPageTitle = data.text; \n                    // document.title =newPageTitle;\n            //   title\n                    var title = document.title;\n            var interval = 0;\n\n            function blink(title1, title2, timeout){\n                title2 = title2 || title;\n                timeout = timeout || 1000;\n\n                document.title = title1;\n                interval = setInterval(function(){\n                    if(document.title == title1){\n                        document.title = title2;\n                    }else{\n                        document.title = title1;\n                    }\n                }, timeout);\n            }\n\n            function stop(){\n                clearInterval(interval);\n                document.title = title;\n            }\n\n\n\n            blink(data.text);\n            setTimeout(function(){\n                stop();\n            }, 5000)\n            // title\n            \n                    if(data.options!==null){\n                        $( \"#Query\" ).prop( \"disabled\", true );\n                        $(\"#chat\").append(\"<div class='message stark' id='typing-blob'><div class='typing typing-1'></div><div class='typing typing-2'></div><div class='typing typing-3'></div></div>\").animate({scrollTop: $('#chat').prop(\"scrollHeight\")}, 500)\n                        setTimeout(function () {\n                        $(\"#typing-blob\").remove()\n                        }, 1290);\n                        setTimeout(() => {\n                        $(document).ready(function(){\n                        for (let i=0; i < data.options[0].length;i++){\n                            if (data.options[0][i].text !== undefined){\n                                $(\"#chat\").append(\"<button class='message stark extra' data-value=\\\"\" + data.options[0][i].text + \"\\\" onclick='myFun(this)'> <span>\" + data.options[0][i].text + \"</span></button>\").animate({scrollTop: $('#chat').prop(\"scrollHeight\")}, 500)\n                            }\n                        }\n                        })\n                        }, 1300);\n                    }else{\n                        $( \"#Query\" ).prop( \"disabled\", false );\n                    }\n                    timing();\n                    $(\"#chat\").append(`<div class='bot-timer' id='time'>Today at ${datetime} </div>`).animate({scrollTop: $('#chat').prop(\"scrollHeight\")}, 500)\n                    \n                //ws.send(JSON.stringify({data:data}));\n            }\n            \n            ws.onopen = function() {\n                // update the status div with the connection status\n                // document.getElementById('status').innerHTML = \"connected\";\n                //ws.send(\"Open for data\");\n                console.log(\"connected\");\n            }\n            ws.onclose = function() {\n                // update the status div with the connection status\n                // document.getElementById('status').innerHTML = \"not connected\";\n                // in case of lost connection tries to reconnect every 3 secs\n                setTimeout(wsConnect,3000);\n            }\n        }\n        \n        function doit(m) {\n            if (ws) { ws.send(m); }\n        }\n        function openChatBox(){\n            $(\"#chatBox\").removeClass(\"closed\")\n            $(\"#closeButton\").show();\n            //chatbot online-status\n            $(\"#online-status\").attr(\"class\",\"online-status\");\n             //initializing .... message\n            // $(\"#initial-message\").hide();\n            // $(\"#chat\").append(\"<div class='message stark' id='typing-blob'><div class='typing typing-1'></div><div class='typing typing-2'></div><div class='typing typing-3'></div></div>\").animate({scrollTop: $('#chat').prop(\"scrollHeight\")}, 500)\n            //             setTimeout(function () {\n            //             $(\"#typing-blob\").remove();\n            //             $(\"#initial-message\").show();\n            //             }, 3000);\n        }\n         function closeChatBox(){\n            $(\"#chatBox\").addClass(\"closed\")\n            $(\"#closeButton\").hide();\n            \n         }\n         \n        //  $(document).delegate(\"#Query\", \"keyup\", function(event) { \n        //     if (event.keyCode === 13) { \n        //         $(\"#send\").click(); \n        //     } \n        // });\n         function timing() {\n       var currentdate = new Date(); \n      var hrs=currentdate.getHours();\n      console.log(hrs);\n      console.log(typeof(hrs));\n      var day;\n      if(hrs>12)\n      {\n          hrs=hrs-12;\n          console.log(hrs);\n          day=\"PM\";\n          \n      }\n      else\n      {\n          day=\"AM\";\n      }\n      \n         datetime =  + hrs+ \":\"  \n                        + currentdate.getMinutes()+\" \"+day;\n        console.log(datetime);\n     };\n        \n        function sendMessage(userResponse) {\n            if(userResponse !== \"\"){\n                responseMessage[\"text\"] = userResponse\n                doit(JSON.stringify(responseMessage));\n                responseMessage={};\n                $(\"#chat\").append(\"<div class='message parker'>\"+userResponse+\"</div>\").animate({scrollTop: $('#chat').prop(\"scrollHeight\")}, 500)\n                timing();\n                $(\"#chat\").append(`<div class='timer' id='time'>Today at ${datetime} </div>`).animate({scrollTop: $('#chat').prop(\"scrollHeight\")}, 500)\n                sound.play();\n                $(\"#chat\").append(\"<div class='message stark' id='typing-blob'><div class='typing typing-1'></div><div class='typing typing-2'></div><div class='typing typing-3'></div></div>\").animate({scrollTop: $('#chat').prop(\"scrollHeight\")}, 500)\n                $(\"#Query\").val(\"\");\n                setTimeout(function () {\n                    $(\"#typing-blob\").remove()\n                }, 5000);\n            }\n        }\n        \n//       \n        \n        // $(document).delegate(\"#send\", \"click\", function() {\n        //     var userResponse = $(\"#Query\").val();\n        //     console.log(userResponse);\n        //     sendMessage(userResponse);\n        //     userResponse=\"\";\n        // });\n        // $(document).delegate(\"#send\", \"onkeypress\", function() {\n           \n        //     var userResponse = $(\"#Query\").val();\n        //     console.log(userResponse);\n        //     sendMessage(userResponse);\n        //     userResponse=\"\";\n        // });\n        function sendFromTextBox()\n        {\n            if(userResponse !== \"\"){\n            var userResponse = $(\"#Query\").val();\n            console.log(userResponse);\n            sendMessage(userResponse);\n            userResponse=\"\";\n            }\n        }\n        // function sendQuery(opt) {\n        //   document.querySelector(\"#chatBox > div.input > input\").value = opt;\n        // }\n        function myFun(btn){\n            console.log(btn.dataset.value);\n            userResponse = btn.dataset.value;\n            sendMessage(userResponse);\n    }\n        \n                $( document ).ready(function() {\n            $(\"#closeButton\").hide();\n            setTimeout(function () {\n                $(\"#chatBox\").removeClass(\"closed\");\n                $(\"#closeButton\").show();\n            }, 5000);\n            \n        });\n\n         \n        function record() {\n            $(document).ready(function(){\n                    $('input[name=\"msg-txt\"]').attr('placeholder','Listening.....');\n                })\n            setTimeout(() => {\n             $(document).ready(function(){\n                 $('input[name=\"msg-txt\"]').attr('placeholder','Type your message here!');\n                })\n                }, 4000);\n            var recognition = new webkitSpeechRecognition();\n            recognition.lang = \"en-GB\";\n            recognition.onresult = function(event) {\n                console.log(event);\n                document.getElementById('Query').value = event.results[0][0].transcript;\n                setTimeout(() => { \n                 var userResponse = $(\"#Query\").val();\n                    console.log(userResponse);\n                    \n                    sendMessage(userResponse);\n                    userResponse=\"\"; \n                    }, 2000);\n                \n                $(document).ready(function(){\n                $('input[name=\"msg-txt\"]').attr('placeholder','Type your message here!');\n                })\n                \n\n            }\n            recognition.start();\n        }\n      function iconFunction()\n      {\n          if(document.getElementById('micIcon').className==\"fas fa-microphone\")\n          {\n              record();\n          }\n          if(document.getElementById('micIcon').className==\"fas fa-paper-plane\")\n          {\n              sendFromTextBox();\n          }\n          \n          \n      }\n//      function emojisArea(e) { \n\n//   if(e.target.id == 'emoji_select_inactive'){\n//     $(\"#hidden_emoji_box\").show(400);\n//     $(\"#emoji_select_inactive\").hide();\n//     $(\"#emoji_select_active\").show();  \n//   }else if (e.target.id == 'emoji_select_active'){\n//     $(\"#hidden_emoji_box\").hide(400);\n//     $(\"#emoji_select_active\").hide();\n//     $(\"#emoji_select_inactive\").show();  \n//   }else if(e.target.id == 'hidden_emoji_box' ||\n//         e.target.id == 'chat_box' ||\n//         $(e.target).hasClass('emoji_single')) \n//     {\n//       return false;\n//     }\n//   else{\n//      $(\"#hidden_emoji_box\").hide();\n//       $(\"#emoji_select_active\").hide();\n//       $(\"#emoji_select_inactive\").show();  \n//   }\n  \n     \n\n    </script>\n        \n    <div class=\"container-fluid\">\n        <div style=\"position : fixed; bottom: 5px; right: 0px; z-index:9999\"> <!--Begin Chatbot Code-->\n          <div id=\"chatBox\" class=\"orca-chat closed animate__animated animate__heartbeat\">\n            <div class=\"contact bar\" id=\"openChatBox\" onclick=\"openChatBox()\">\n                \n              <div class=\"pic stark\"></div>\n              <span id=\"online-status\"></span>\n              <div class=\"name\">\n                EmbIOTe Bot\n              </div>\n              <div class=\"seen\">\n               Just Now\n             \n              </div>\n            </div>\n            <div id=\"closeButton\" style=\"position: absolute; top: 2rem; right: 2rem;\" onclick=\"closeChatBox()\">\n               <i class=\"fas fa-times\"></i>\n            </div>\n             \n            \n            <div class=\"messages\" id=\"chat\">\n                <script>\n                    // $(\"#initial-message\").hide();\n                    // $(\"#chat\").append(\"<div class='message stark' id='typing-blob'><div class='typing typing-1'></div><div class='typing typing-2'></div><div class='typing typing-3'></div></div>\").animate({scrollTop: $('#chat').prop(\"scrollHeight\")}, 500)\n                    //     setTimeout(function () {\n                    //     $(\"#typing-blob\").remove();\n                    //   $(\"#initial-message\").show();\n                    //     }, 3000);\n                        \n                </script>\n              <div class=\"message stark\" id=\"initial-message\">\n                Hi there! How can I help you?\n              </div>\n              <img id=\"preview\" />\n            </div>\n             \n \n\n  \n            <div class=\"input\">\n              <i class=\"far fa-laugh-beam\" ></i>\n              <input type=\"file\" id=\"real-file\" hidden=\"hidden\" name=\"file\" accept=\"image/*\" onchange=\"previewImage();\"/>\n              <!--<i class=\"fas fa-paperclip\" id=\"custom-button\"></i>-->\n             \n             <!-- <input id=\"Query\" placeholder=\"Type your message here!\" type=\"text\" autocomplete=\"off\" name=\"msg-txt\" />-->\n            <input id=\"Query\" placeholder=\"Type your message here!\" type=\"text\" autocomplete=\"off\" name=\"msg-txt\" onkeyup=\"changeIcon('micIcon')\"/>\n              <i class=\"fas fa-microphone\" onclick=\"iconFunction()\" id=\"micIcon\"></i>\n              <!--<i class=\"fas fa-paper-plane\" id=\"send\"></i>-->\n            </div>\n          </div>\n        </div> \n        </div><!--End Chatbot Code-->\n        <!--<b-img src=\"./images/node-blue-192x192.png\" rounded left v-bind=\"imgProps\" alt=\"Blue Node-RED\" class=\"mt-1 mr-2\"></b-img>-->\n        <!--<img src=\"https://api.tezsolutions.in/images/ORCA/Logo.png\" fluid alt=\"ORCA Logo\">\n        <h1 style=\"text-align: center;\">\n            <br>\n            Omni Resource Collaboration Agent\n        </h1>-->\n   <!--closed container-->\n\n    <script>\n        $(document).ready(function() {\n            wsConnect();\n        });\n        \n        const realFileBtn = document.getElementById(\"real-file\");\n        const customBtn = document.getElementById(\"custom-button\");\n        const customTxt = document.getElementById(\"custom-text\");\n        \n        \n        //changeicon code\n        function changeIcon(f1)\n        {\tvar keycode = (event.keyCode ? event.keyCode : event.which);\n                    if(document.getElementById(f1).className==\"fas fa-microphone\")\n              \t\t{\n              \t\t\t\n              \t\t\tif(keycode!=32 && keycode!=8)\n              \t\t\t{\n              \t\t\t\tdocument.getElementById(f1).className=\"fas fa-paper-plane\";\n              \t\t\t\t\n              \t\t\t}              \t\t\t\n        \t       }\n              \t\telse{\n              \t\t    if(keycode==8)\n              \t\t    {\n              \t\t        //console.log(keycode);\n              \t\t        var content=document.getElementById('Query').value;\n              \t\t        if(content==\"\")\n              \t\t        {\n              \t\t            document.getElementById(f1).className=\"fas fa-microphone\";\n              \t\t        }\n              \t\t        \n              \t\t    }\n              \t\t   else if(keycode==13)\n\n              \t\t    {\n              \t\t        sendFromTextBox();\n              \t\t        document.getElementById(f1).className=\"fas fa-microphone\";\n              \t\t        \n              \t\t    }\n              \t\t    else{\n              \t\tdocument.getElementById(f1).className=\"fas fa-paper-plane\";}\n              \t}\n                \n        }\n        \n        \n        \n        \n        \n        \n        //\n    \n        // customBtn.addEventListener(\"click\", function() {\n        //   realFileBtn.click();\n        // });\n        \n        function previewImage() {\n        var file = document.getElementById(\"real-file\").files;\n        if (file.length > 0) {\n          var fileReader = new FileReader();\n    \n          fileReader.onload = function (event) {\n            document.getElementById(\"preview\").setAttribute(\"src\", event.target.result);\n          };\n                \n          fileReader.readAsDataURL(file[0]);\n        }\n    }\n    // $('#Query').emojioneArea({\n    //     pickerPosition:'top'\n    // });\n    \n  console.log(document.title);\n          \n    </script>\n\n",
+        "x": 370,
+        "y": 160,
+        "wires": [
+            [
+                "7e34c73c.1072c8"
+            ]
+        ]
+    },
+    {
+        "id": "ffd8e2cc.53075",
+        "type": "websocket in",
+        "z": "94da1880.7e5898",
+        "name": "",
+        "server": "7697fb4a.831394",
+        "client": "",
+        "x": 210,
+        "y": 260,
+        "wires": [
+            [
+                "50a4324d.07942c",
+                "e6513f70.a10b3"
+            ]
+        ]
+    },
+    {
+        "id": "50a4324d.07942c",
+        "type": "debug",
+        "z": "94da1880.7e5898",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 410,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "82b6d06c.be358",
+        "type": "link in",
+        "z": "94da1880.7e5898",
+        "name": "",
+        "links": [
+            "746b3ac3.ebb494",
+            "2990992b.1c7c46",
+            "ea3471.2c70cb9"
+        ],
+        "x": 175,
+        "y": 380,
+        "wires": [
+            [
+                "3872a82a.28a698",
+                "431da781.bdc278"
+            ]
+        ]
+    },
+    {
+        "id": "ae74e2af.a8949",
+        "type": "link out",
+        "z": "94da1880.7e5898",
+        "name": "",
+        "links": [
+            "9793bf45.eb8a1"
+        ],
+        "x": 715,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "3872a82a.28a698",
+        "type": "debug",
+        "z": "94da1880.7e5898",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 270,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "bbef3e5c.16906",
+        "type": "function",
+        "z": "94da1880.7e5898",
+        "name": "",
+        "func": "var payload = msg.payload;\nvar context = msg._dialogflow.outputContexts;\nmsg.payload={};\nmsg.payload.text=payload;\nmsg.payload.options = msg.options;\nmsg.payload.context=context;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 440,
+        "y": 380,
+        "wires": [
+            [
+                "8d9be36d.af95c"
+            ]
+        ]
+    },
+    {
+        "id": "431da781.bdc278",
+        "type": "switch",
+        "z": "94da1880.7e5898",
+        "name": "websocket",
+        "property": "src",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "websocket",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 290,
+        "y": 380,
+        "wires": [
+            [
+                "bbef3e5c.16906"
+            ]
+        ]
+    },
+    {
+        "id": "d419725a.03166",
+        "type": "function",
+        "z": "94da1880.7e5898",
+        "name": "",
+        "func": "var m=msg.payload;\nmsg.payload=m.text;\nmsg.contexts=m.context;\nmsg.src=\"websocket\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 580,
+        "y": 260,
+        "wires": [
+            [
+                "ae74e2af.a8949",
+                "8a0bcc3a.9498d"
+            ]
+        ]
+    },
+    {
+        "id": "8a0bcc3a.9498d",
+        "type": "debug",
+        "z": "94da1880.7e5898",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 570,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "e6513f70.a10b3",
+        "type": "json",
+        "z": "94da1880.7e5898",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 410,
+        "y": 260,
+        "wires": [
+            [
+                "d419725a.03166"
+            ]
+        ]
+    },
+    {
+        "id": "7697fb4a.831394",
+        "type": "websocket-listener",
+        "z": "",
+        "path": "/ws/chat",
+        "wholemsg": "false"
+    }
+]
